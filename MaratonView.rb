@@ -4,7 +4,7 @@ class View
   end
 
   def intro
-    puts "Welcome to Guess. We will ask you a question and you must put the correct answer."
+    puts "Welcome to Guess. We will ask you a question and you must enter the correct response."
     sleep(1)
   end
 
@@ -14,8 +14,9 @@ class View
     puts "with the answer: \"#{card.answer}.\""
   end
 
-  def game(card)
+  def game(card, option1, option2)
     puts card
+    puts "a_#{option1[0]} or b_#{option2[0]}"
     STDIN.gets.chomp
   end
 

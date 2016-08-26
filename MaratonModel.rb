@@ -31,9 +31,9 @@ attr_reader :cards
 
   def read_csv
     arr = []
-    CSV.foreach("TestPreguntasKarla.csv") do |row|
+    CSV.foreach("PreguntasKarla.csv") do |row|
       next unless row[0] == @category
-      arr << row[1]
+      arr << row[1..-1]
     end
     arr.each_slice(2).to_a
   end
