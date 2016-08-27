@@ -37,9 +37,12 @@ attr_reader :name, :email, :password
   end
 
   def register
-    CSV.open("OnlineStoreUsers.csv", "a+") do |csv|
-        csv << [@user.name, @user.email, @user.password]
-    end
+    # CSV.open("OnlineStoreUsers.csv", "a+") do |csv|
+    #     csv << [@user.name, @user.email, @user.password]
+    # end
+    puts @name
+    puts @email
+    puts @password
   end
 
   def get_user_info(name)

@@ -16,12 +16,21 @@ class View
     STDIN.gets.chomp
   end
 
-  def register
-    puts "Please enter you full name:"
+  def get_name
+    puts "_____________________________________________________________________"
+    puts "Let's get you into the store so you can start creating awesome shirts!"
+    puts "_____________________________________________________________________"
+    puts "Please enter your full name:"
+    STDIN.gets.chomp
   end
 
-  def get_name
-    puts "Please enter your full name:"
+  def get_email
+    puts "Please enter your email:"
+    STDIN.gets.chomp 
+  end
+
+  def create_password
+    puts "Please create a six digit numeric password:"
     STDIN.gets.chomp
   end
 
@@ -33,7 +42,7 @@ class View
   def signed_in(name)
     puts "_____________________________________________________________________"
     puts "Welcome #{name}!"
-    puts "Let's create your order."
+    puts "Let's get started on your order."
   end
 
   def exit
