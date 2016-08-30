@@ -13,16 +13,25 @@ end
 class Product
 attr_reader :quantity, :color, :text
 
-  def initialize(name, quantity = 20, color = Faker::Commerce.color, text = Faker::Company.name)
-    @name = name
+  def initialize(quantity = 20, color = Faker::Commerce.color, text = Faker::Company.name)
     @quantity = quantity
     @color = color
     @text =  text
   end
 
-  def basket
-    CSV.open("OnlineStoreBaskets.csv", "a+") do |csv|
-        csv << [@user.name, @user.email, @user.password]
+end
+
+class Basket
+  def create(user)
+    puts "create #{user}"
+    CSV.open("#{user.name.gsub(" ", "_")}Basket.csv", "wb") do |csv|
+        csv << ["Quantity", "Color", "Text"]
+    end
+  end
+
+  def add_item(user, product)
+    CSV.open("#{user.name.gsub(" ", "_")}Basket.csv", "a+") do |csv|
+        csv << [product.quantity, product.color, product.text]
     end
   end
 end
@@ -36,15 +45,6 @@ attr_reader :name, :email, :password
     @password = password
   end
 
-  def register
-    # CSV.open("OnlineStoreUsers.csv", "a+") do |csv|
-    #     csv << [@user.name, @user.email, @user.password]
-    # end
-    puts @name
-    puts @email
-    puts @password
-  end
-
   def get_user_info(name)
     arr = []
     CSV.foreach("OnlineStoreUsers.csv") do |row|
@@ -53,9 +53,45 @@ attr_reader :name, :email, :password
     end
     arr
   end
+end
 
-  def auth(password)
-    password == @password ? true : false
+class UserBank
+
+  def create
+    CSV.open("OnlineStoreUsers.csv", "wb") do |csv|
+        csv << ["Username", "Email", "Password"]
+    end    
+  end
+
+  def register(user)
+    CSV.open("OnlineStoreUsers.csv", "a+") do |csv|
+        csv << [user.name, user.email, user.password]
+    end
+  end
+
+  def index
+    @users = []
+    CSV.foreach("OnlineStoreUsers.csv") do |row|
+    @users << User.new(row[0], row[1], row[2])
+    end
+    @users
+  end
+
+  def exists?(name)
+    id = nil
+    @users.each_with_index do |user, index|
+      if user.name == name
+        return id = index
+      else 
+        id = nil
+      end
+    end
+    id
+  end
+
+
+  def auth(id, password)
+    @users[id].password == password
   end
 end
 

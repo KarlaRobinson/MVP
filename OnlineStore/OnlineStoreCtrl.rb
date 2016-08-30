@@ -9,8 +9,10 @@ class Controler
     @url = arr_of_strings.join("")
     @view = View.new
     @store = OnlineStore.new("Custom T-shirts", @url)
+    @user_bank = UserBank.new
     start
   end
+
 
   def start
   input = @view.start(@store.name, @store.url)
@@ -29,23 +31,44 @@ class Controler
     name = @view.get_name
     email = @view.get_email
     password = @view.create_password
-    User.new(name, email, password).register
+    @user = User.new(name, email, password)
+    @user_bank.register(@user)
+    @basket = Basket.new
+    @basket.create(@user)
     print "\e[2J\e[H"
     @view.signed_in(name)
-    #create_shirt
+    add_item
   end
 
   def login
+    @user_bank.index
     name = @view.get_name
-    password = @view.get_password
-    @user1
-    print "\e[2J"
-    @view.signed_in(name)
-    #auth?
-    #if successful create_shirt
+    id = @user_bank.exists?(name)
+    if id != nil
+      auth(id, name)
+    else
+      @view.failed
+    end
   end
 
-  def create_shirt
+  def auth(id, name)
+    password = @view.get_password
+    if @user_bank.auth(id, password)
+      print "\e[2J"
+      @view.signed_in(name)
+      add_item
+    else
+      @view.failed2
+    end
+  end
+
+private
+  def add_item
+    text = @view.get_shirt_text
+    quantity = @view.get_shirt_qty
+    color = @view.get_shirt_color
+    @product = Product.new(quantity, color, text)
+    @basket.add_item(@user, @product)
     #checkout
   end
 
