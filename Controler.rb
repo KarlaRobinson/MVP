@@ -36,7 +36,9 @@ class Controler
   end
 
   def delete
-    
+
+    @view.delete(@list.read[@task_str.to_i])
+    #@list.delete(@task_str.to_i)
   end
 
   def complete

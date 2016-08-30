@@ -13,9 +13,18 @@ class List
   end
 
   def add(object)
-    CSV.open("TestList.csv", "a+") do |csv|
+    CSV.open("TestList.csv", "a+") do |csv|      
         csv << [object.name, object.completed]
       end
+  end
+
+  def delete(row_to_delete)
+    CSV.open("TestList.csv", "wb") do |csv|  
+        read.each_with_index do |object, index|
+          next if index == row_to_delete
+          csv << [object[0], object[1]]
+        end
+    end    
   end
 end
 
@@ -28,5 +37,3 @@ attr_reader :name, :completed
   end
 end
 
-
-#Task.new("sweep", false)
