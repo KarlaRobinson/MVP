@@ -19,11 +19,22 @@ class List
   end
 
   def delete(row_to_delete)
+    arr = read
     CSV.open("TestList.csv", "wb") do |csv|  
-        read.each_with_index do |object, index|
-          next if index == row_to_delete
-          csv << [object[0], object[1]]
-        end
+      arr.each_with_index do |object, index|
+        next if index == row_to_delete
+        csv << [object[0], object[1]]
+      end
+    end    
+  end
+
+  def complete(row_to_complete)
+    arr = read
+    CSV.open("TestList.csv", "wb") do |csv|  
+      arr.each_with_index do |object, index|
+        object[1] = "true" if index == row_to_complete
+        csv << [object[0], object[1]]
+      end
     end    
   end
 end
@@ -37,3 +48,8 @@ attr_reader :name, :completed
   end
 end
 
+
+# ruby Controler.rb add eat
+# ruby Controler.rb add drink
+# ruby Controler.rb add sleep
+# ruby Controler.rb add clean

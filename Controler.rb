@@ -29,6 +29,7 @@ class Controler
   @task = Task.new(@task_str)
   @list.add(@task)
   @view.show_task(@task)
+  index
   end
 
   def index
@@ -36,13 +37,15 @@ class Controler
   end
 
   def delete
-
-    @view.delete(@list.read[@task_str.to_i])
-    #@list.delete(@task_str.to_i)
+    @view.delete(@list.read[(@task_str.to_i - 1)])
+    @list.delete((@task_str.to_i) - 1)
+    index
   end
 
   def complete
-    #Array(@arr_of_strings[2])
+    @view.complete(@list.read[(@task_str.to_i - 1)])
+    @list.complete((@task_str.to_i) - 1)
+    index
   end
 end
 
