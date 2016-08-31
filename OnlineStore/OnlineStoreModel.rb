@@ -29,11 +29,17 @@ class Basket
     end
   end
 
-  def add_item(user, product)
-    CSV.open("#{user.name.gsub(" ", "_")}Basket.csv", "a+") do |csv|
+  def add_item(name, product)
+    CSV.open("#{name.gsub(" ", "_")}Basket.csv", "a+") do |csv|
         csv << [product.quantity, product.color, product.text]
     end
-  end
+   end
+
+   def empty(name)
+    CSV.open("#{name.gsub(" ", "_")}Basket.csv", "wb") do |csv|
+       csv << ["Quantity", "Color", "Text"]
+    end
+   end
 end
 
 class User

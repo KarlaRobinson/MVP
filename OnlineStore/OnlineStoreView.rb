@@ -70,6 +70,15 @@ class View
     STDIN.gets.chomp    
   end
 
+  def checkout?
+    puts "Great choice! Would you like to make another purchase?"
+    STDIN.gets.chomp  
+  end
+
+  def finish
+    puts "Thank you for shopping with us, your order has been placed!"
+  end
+
   def exit
     puts "_____________________________________________________________________"
     puts "Sorry to see you go, please come back soon!"
